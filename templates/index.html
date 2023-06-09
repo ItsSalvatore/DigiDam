@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+
+<head>
+    <title>Try out</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;800&display=swap" rel="stylesheet">
+</head>
+
+
+<body>
+  <script>
+
+    var opdrachten_jaar = []
+    var opdrachten_waarde = []
+
+    {% for key, value in opdrachten.items() %}
+        opdrachten_jaar.push({{key}})
+        opdrachten_waarde.push({{value}})
+    {% endfor %}
+
+
+    // verwerken van alle medewerkers die aan deze rol voldoen en opslaan
+    var scrummasters = [
+    {% for item in scrummasters %}
+      [{{ item[0] }}, '{{ item[1] }}', '{{ item[2] }}', '{{ item[3] }}', '{{ item[4] }}', {{ item[5] }}, '{{ item[6] }}', {{ item[7] }}, {{ item[8] }}],
+    {% endfor %}
+    ];
+    var jaar;
+    var filteredData = [];
+
+    var agilecoaches = [
+    {% for item in agilecoaches %}
+      [{{ item[0]}}, '{{ item[1]}}', '{{item[2]}}', '{{item[3]}}', '{{item[4]}}', {{item[5]}}, '{{item[6]}}', {{item[7]}}, {{ item[7]}}, {{ item[8] }}],
+    {% endfor %}
+    ];
+    var jaar;
+    var filteredData = [];
+
+    var productowners = [
+    {% for item in productowners %}
+      [{{ item[0]}}, '{{ item[1]}}', '{{item[2]}}', '{{item[3]}}', '{{item[4]}}', {{item[5]}}, '{{item[6]}}', {{item[7]}}, {{ item[7]}}, {{ item[8] }}],
+    {% endfor %}
+    ];
+    var jaar;
+    var filteredData = [];
+
+    var rte = [
+    {% for item in rte %}
+      [{{ item[0]}}, '{{ item[1]}}', '{{item[2]}}', '{{item[3]}}', '{{item[4]}}', {{item[5]}}, '{{item[6]}}', {{item[7]}}, {{ item[7]}}, {{ item[8] }}],
+    {% endfor %}
+    ];
+    var jaar;
+    var filteredData = [];
+
+    var ate = [
+    {% for item in ate %}
+      [{{ item[0]}}, '{{ item[1]}}', '{{item[2]}}', '{{item[3]}}', '{{item[4]}}', {{item[5]}}, '{{item[6]}}', {{item[7]}}, {{ item[7]}}, {{ item[8] }}],
+    {% endfor %}
+    ];
+    var jaar;
+    var filteredData = [];
+
+    var pjm = [
+    {% for item in pjm %}
+      [{{ item[0]}}, '{{ item[1]}}', '{{item[2]}}', '{{item[3]}}', '{{item[4]}}', {{item[5]}}, '{{item[6]}}', {{item[7]}}, {{ item[7]}}, {{ item[8] }}],
+    {% endfor %}
+    ];
+    var jaar;
+    var filteredData = [];
+
+    var pmo = [
+    {% for item in pmo %}
+      [{{ item[0]}}, '{{ item[1]}}', '{{item[2]}}', '{{item[3]}}', '{{item[4]}}', {{item[5]}}, '{{item[6]}}', {{item[7]}}, {{ item[7]}}, {{ item[8] }}],
+    {% endfor %}
+    ];
+    var jaar;
+    var filteredData = [];
+
+    var pgm = [
+    {% for item in pgm %}
+      [{{ item[0]}}, '{{ item[1]}}', '{{item[2]}}', '{{item[3]}}', '{{item[4]}}', {{item[5]}}, '{{item[6]}}', {{item[7]}}, {{ item[7]}}, {{ item[8] }}],
+    {% endfor %}
+    ];
+    var jaar;
+    var filteredData = [];
+
+
+    // verandering per jaar
+    function onChangeProgressionBar(){
+      onChangeProgressionBarAgileCoach()
+      onChangeProgressionBarScrumMaster()
+      onChangeProgressionBarProductowner()
+      onChangeProgressionBarRte()
+      onChangeProgressionBarAte()
+      onChangeProgressionBarPjm()
+      onChangeProgressionBarPmo()
+      onChangeProgressionBarPgm()
+    }
+
+    //scrummaster
+
+    //verandering per jaar
+    function onChangeProgressionBarScrumMaster(){
+      var e = document.getElementById("progressiebar")
+      jaar = e.value.toString()
+
+
+      /* SCRUMMASTERS */
+      var temp = [...scrummasters]
+      // get totaal rollen van jaar
+      var totaalJaar = {{totaalRollen["smTotal"]}}[jaar]
+
+
+      // gefilterde data op basis van je jaar
+      filteredData = temp.filter(item => parseInt(item[6].split('-')[0]) <= jaar)
+      document.getElementById('scrummasterCount').innerHTML = filteredData.length
+      document.getElementById('scrummasterPercentage').innerHTML = (100 * filteredData.length / totaalJaar).toFixed(0).toString() + ' %';
+      document.getElementById('scrummasterPercentage').style.width = (100 * filteredData.length / totaalJaar).toFixed(0).toString() + '%';
+      
+
+      
+      filteredData = temp.filter(item => item[6].split('-')[0] == jaar)
+      document.getElementById('scrummasterCount')
+    }
+
+
+    //AGILECOACH
+    //verandering per jaar
+    function onChangeProgressionBarAgileCoach(){
+      var e = document.getElementById("progressiebar")
+      jaar = e.value.toString()
+
+      //agilecoaches
+      var temp = [...agilecoaches]
+      //get totaal agile rollen van jaar
+      var totaalJaar = {{totaalRollen["acTotal"]}}[jaar]
+
+
+      filteredData = temp.filter(item => parseInt(item[6].split('-')[0]) <= jaar)
+      document.getElementById('agilecoachCount').innerHTML = filteredData.length
+      document.getElementById('agilecoachPercentage').innerHTML = (100 * filteredData.length / totaalJaar).toFixed(0).toString() + ' %';
+      document.getElementById('agilecoachPercentage').style.width = (100 * filteredData.length / totaalJaar).toFixed(0).toString() + '%';
+
+      filteredData = temp.filter(item => item[6].split('-')[0] == jaar)
+      document.getElementById('agilecoachCount')
+    }
+
+
+    //productowners
+    function onChangeProgressionBarProductowner(){
+      var e = document.getElementById("progressiebar")
+      jaar = e.value.toString()
+
+      //agilecoaches
+      var temp = [...productowners]
+      //get totaal agile rollen van jaar
+      var totaalJaar = {{totaalRollen["poTotal"]}}[jaar]
+
+
+      filteredData = temp.filter(item => parseInt(item[6].split('-')[0]) <= jaar)
+      document.getElementById('productownerCount').innerHTML = filteredData.length
+      document.getElementById('productownerPercentage').innerHTML = (100 * filteredData.length / totaalJaar).toFixed(0).toString() + ' %';
+      document.getElementById('productownerPercentage').style.width = (100 * filteredData.length / totaalJaar).toFixed(0).toString() + '%';
+
+      filteredData = temp.filter(item => item[6].split('-')[0] == jaar)
+      document.getElementById('productownerCount')
+    }
+
+    //rte
+    function onChangeProgressionBarRte(){
+      var e = document.getElementById("progressiebar")
+      jaar = e.value.toString()
+
+      //rte
+      var temp = [...rte]
+      //get totaal rte van jaar
+      var totaalJaar = {{totaalRollen["rteTotal"]}}[jaar]
+
+
+      filteredData = temp.filter(item => parseInt(item[6].split('-')[0]) <= jaar)
+      document.getElementById('rteCount').innerHTML = filteredData.length
+      document.getElementById('rtePercentage').innerHTML = (100 * filteredData.length / totaalJaar).toFixed(0).toString() + ' %';
+      document.getElementById('rtePercentage').style.width = (100 * filteredData.length / totaalJaar).toFixed(0).toString() + '%';
+
+      filteredData = temp.filter(item => item[6].split('-')[0] == jaar)
+      document.getElementById('rteCount')
+    }
+
+    //ate
+    function onChangeProgressionBarAte(){
+      var e = document.getElementById("progressiebar")
+      jaar = e.value.toString()
+
+      //ate
+      var temp = [...ate]
+      //get totaal ate van jaar
+      var totaalJaar = {{totaalRollen["ateTotal"]}}[jaar]
+
+
+      filteredData = temp.filter(item => parseInt(item[6].split('-')[0]) <= jaar)
+      document.getElementById('ateCount').innerHTML = filteredData.length
+      document.getElementById('atePercentage').innerHTML = (100 * filteredData.length / totaalJaar).toFixed(0).toString() + ' %';
+      document.getElementById('atePercentage').style.width = (100 * filteredData.length / totaalJaar).toFixed(0).toString() + '%';
+
+      filteredData = temp.filter(item => item[6].split('-')[0] == jaar)
+      document.getElementById('ateCount')
+    }
+
+    //pjm
+    function onChangeProgressionBarPjm(){
+      var e = document.getElementById("progressiebar")
+      jaar = e.value.toString()
+
+      //pjm
+      var temp = [...pjm]
+      //get totaal pjm van jaar
+      var totaalJaar = {{totaalRollen["pjmTotal"]}}[jaar]
+
+
+      filteredData = temp.filter(item => parseInt(item[6].split('-')[0]) <= jaar)
+      document.getElementById('pjmCount').innerHTML = filteredData.length
+      document.getElementById('pjmPercentage').innerHTML = (100 * filteredData.length / totaalJaar).toFixed(0).toString() + ' %';
+      document.getElementById('pjmPercentage').style.width = (100 * filteredData.length / totaalJaar).toFixed(0).toString() + '%';
+      //document.getElementById('pjmTeGaan').innerHTML = totaalJaar - filteredData.length;
+
+      filteredData = temp.filter(item => item[6].split('-')[0] == jaar)
+      document.getElementById('pjmCount')
+    }
+
+    //pmo
+    function onChangeProgressionBarPmo(){
+      var e = document.getElementById("progressiebar")
+      jaar = e.value.toString()
+
+      //pmo
+      var temp = [...pmo]
+      //get totaal pmo van jaar
+      var totaalJaar = {{totaalRollen["pmoTotal"]}}[jaar]
+
+
+      filteredData = temp.filter(item => parseInt(item[6].split('-')[0]) <= jaar)
+      document.getElementById('pmoCount').innerHTML = filteredData.length
+      document.getElementById('pmoPercentage').innerHTML = (100 * filteredData.length / totaalJaar).toFixed(0).toString() + ' %';
+      document.getElementById('pmoPercentage').style.width = (100 * filteredData.length / totaalJaar).toFixed(0).toString() + '%';
+
+      filteredData = temp.filter(item => item[6].split('-')[0] == jaar)
+      document.getElementById('pmoCount')
+    }
+
+    //pgm
+    function onChangeProgressionBarPgm(){
+      var e = document.getElementById("progressiebar")
+      jaar = e.value.toString()
+
+      //pgm
+      var temp = [...pgm]
+      //get totaal pmo van jaar
+      var totaalJaar = {{totaalRollen["pgmTotal"]}}[jaar]
+
+
+      filteredData = temp.filter(item => parseInt(item[6].split('-')[0]) <= jaar)
+      document.getElementById('pgmCount').innerHTML = filteredData.length
+      document.getElementById('pgmPercentage').innerHTML = (100 * filteredData.length / totaalJaar).toFixed(0).toString() + ' %';
+      document.getElementById('pgmPercentage').style.width = (100 * filteredData.length / totaalJaar).toFixed(0).toString() + '%';
+
+      filteredData = temp.filter(item => item[6].split('-')[0] == jaar)
+      document.getElementById('pgmCount')
+    }
+
+
+
+    /* When the user clicks on the button,
+    toggle between hiding and showing the dropdown content */
+    function myFunction() {
+      document.getElementById("myDropdown").classList.toggle("show");
+    }
+
+    function filterFunction() {
+      var input, filter, ul, li, a, i;
+      input = document.getElementById("myInput");
+      filter = input.value.toUpperCase();
+      div = document.getElementById("myDropdown");
+      a = div.getElementsByTagName("a");
+      for (i = 0; i < a.length; i++) {
+        txtValue = a[i].textContent || a[i].innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          a[i].style.display = "";
+        } else {
+          a[i].style.display = "none";
+        }
+      }
+    }
+
+</script>
+
+<body class="bg-light">
+
+  {% if data is defined %}
+  <!-- Start javascript -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="../static/chart.js"></script>
+    <!-- End javascript -->
+  {%endif%}
+
+  <div class="container">
+    <nav class="navbar navbar-light">
+      <ul class="container-fluid">
+        <li><a href="/"><img class="ml-3" src="/static/gemeenteamsterdam-removebg-preview.png" id="logo"></a></li>
+        <div class="d-flex  justify-content-end">
+        <li class="nav-item"><a href="/handleiding" class="nav-link">Handleiding</a></li>
+        <li class="nav-item"><a href="/voorspellingen" class="nav-link">Voorspellingen</a></li>
+          <li class="nav-item"><a href="/" class="nav-link active">Home</a></li>
+        </div>
+      </ul>
+    </nav>
+
+
+    {# Begin body home pagina #}
+    <div class="mb-4 mt-4">
+      <div class="container mx-0 px-0 row gap-5">
+        <div class="p-4 col shadow" id="team">
+          <p class="fs-2 mb-1">Opdrachten</p>
+          <p class="fs-6 fst-italic">Het aantal opdrachten, nu en in de toekomst</p>
+          <canvas id="projectChart" width="500px"></canvas>
+        </div>
+
+        <div class="col shadow" id="chart">
+          <div class="p-4 ">
+            <p class="fs-2 mb-1">Huidige Bezetting APP</p>
+            <p class="fs-6 fst-italic">De huidige bezetting van de rollen binnen APP</p>
+            <canvas id="bezettingChart" width="500px" height="300"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+        <!-- diya -->
+
+        <!-- medewerkers diagram -->
+        <div class="shadow p-4 mb-4 bg-white" id="chart">
+          <p class="fs-2 mb-1">Medewerker Bezetting APP</p>
+                <p class="fs-6 fst-italic">De huidige bezetting van medewerkers binnen APP, in absolute aantallen en %</p>
+
+      <!-- select button -->
+      <div class="w-100 d-flex justify-content-start">
+          <div class="container-fluid d-flex justify-content-start w-25">
+            <select class="form-select mt-3" id="progressiebar"
+                  onchange=onChangeProgressionBar()
+            >
+                <option value="kies jaar">Kies jaar</option>
+                <option value="2020">2020</option>
+                <option value="2021">2021</option>
+                <option value="2022">2022</option>
+                <option value="2023">2023</option>
+                <option value="2024">2024</option>
+                <option value="2025">2025</option>
+                <option value="2026">2026</option>
+                <option value="2027">2027</option>
+            </select>
+        </div>
+      </div>
+
+      <!-- einde dropdown -->
+
+      <!-- begin progressiebar -->
+          <div id="scrummasters-data" style="display: none;">
+            {{ scrummasters }}
+          </div>
+
+          <div id="agilecoaches-data" style="display: none;">
+            {{ agilecoaches }}
+          </div>
+
+          <div id="productowners-data" style="display: none;">
+            {{ productowners }}
+          </div>
+
+          <div id="rte-data" style="display: none;">
+            {{ rte }}
+          </div>
+
+          <div id="ate-data" style="display: none;">
+            {{ ate }}
+          </div>
+
+          <div id="pjm-data" style="display: none;">
+            {{ pjm }}
+          </div>
+
+          <div id="pmo-data" style="display: none;">
+            {{ pmo }}
+          </div>
+
+          <div id="pgm-data" style="display: none;">
+            {{ pgm }}
+          </div>
+
+
+          <div class="card-body">
+              {% if scrummasters is defined %}
+              <h4 class="small font-weight-bold">Scrum Masters: <span
+                      class="float-right" id="scrummasterCount"></span></h4>
+              <div class="progress mb-4">
+                  <div class="progress-bar bg-danger" role="progressbar" style="background-color:#f0f09a"
+                      aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" id="scrummasterPercentage"></div>      
+              </div>
+              {%endif%}
+
+              {% if agilecoaches is defined %}
+              <h4 class="small font-weight-bold"> Agile Coaches: <span
+                      class="float-right" id="agilecoachCount"></span></h4>
+              <div class="progress mb-4">
+                  <div class="progress-bar bg-warning" role="progressbar"
+                      aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" id="agilecoachPercentage"></div> 
+              </div>
+              {%endif%}
+
+              {% if productowners is defined %}
+              <h4 class="small font-weight-bold">Product Owners: <span
+                      class="float-right" id="productownerCount"></span></h4>
+              <div class="progress mb-4">
+                  <div class="progress-bar" role="progressbar" 
+                      aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" id="productownerPercentage"></div>
+              </div>
+              {%endif%}
+
+              {% if pgm is defined %}
+              <h4 class="small font-weight-bold"> Programma Managers: <span
+                      class="float-right" id="pgmCount"></span></h4>
+              <div class="progress mb-4">
+                  <div class="progress-bar bg-info" role="progressbar"
+                      aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" id="pgmPercentage"></div>
+              </div>
+              {%endif%}
+
+              {% if rte is defined %}
+              <h4 class="small font-weight-bold"> Release Train Engineers: <span
+                      class="float-right" id="rteCount"></span></h4>
+              <div class="progress mb-4">
+                  <div class="progress-bar bg-info" role="progressbar"
+                      aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" id="rtePercentage"></div>
+              </div>
+              {%endif%}
+
+              {% if ate is defined %}
+              <h4 class="small font-weight-bold"> Agile Transformative Experts: <span
+                      class="float-right" id="ateCount"></span></h4>
+              <div class="progress mb-4" >
+                  <div class="progress-bar bg-info" role="progressbar"
+                      aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" id="atePercentage" style="background-color: red; !important"></div>
+              </div>
+              {%endif%}
+
+              {% if pjm is defined %}
+              <h4 class="small font-weight-bold"> Project Managers: <span
+                      class="float-right" id="pjmCount"></span></h4>
+              <div class="progress mb-4">
+                  <div class="progress-bar bg-info" role="progressbar"
+                      aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" id="pjmPercentage"></div>
+              </div>
+              {%endif%}
+
+              {% if pmo is defined %}
+              <h4 class="small font-weight-bold"> Programma Management Ondersteuners: <span
+                      class="float-right" id="pmoCount"></span></h4>
+              <div class="progress mb-4">
+                  <div class="progress-bar bg-dark" role="progressbar"
+                      aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" id="pmoPercentage"></div>
+              </div>
+              {%endif%}
+
+            </div>
+        </div>
+
+
+        <!-- diya -->
+
+
+        {# einde body home pagina #}
+
+        <div class="border border-bottom-0 border-2 rounded-top bg-white">
+          <div class="d-flex justify-content-between p-3">
+              <div class="fs-6 fst-bold">
+                  Dashboard
+              </div>
+              <div class="fs-6">
+                  Digidam
+              </div>
+          </div>
+        </div>
+        
+    </div>
+    <script>
+      const chart1 = document.getElementById('projectChart').getContext('2d');
+  var chart = new Chart(document.getElementById('projectChart'), {
+    type: 'bar',
+    data: {
+      labels: opdrachten_jaar,
+      datasets: [{
+        label: 'Opdrachten',
+        data: opdrachten_waarde,
+        borderColor: '#6ab8f4',
+        backgroundColor: '#6ab8f4',
+        fill: false
+      }]
+    },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        },
+        responsive: false,
+    }
+  });
+  const chart2 = document.getElementById('bezettingChart').getContext('2d');
+  var chartV2 = new Chart(chart2, {
+      type: 'pie',
+      data: {
+          //labels: ['Scrum Masters', 'Agile Coaches', 'Product Owners', 'Programma Managers', 'Release Train Engineers', 'Agile Transformative Experts', 'Project Managers', 'Programma Management Ondersteuners' ],
+          //labels: ['SM', 'AC', 'PO', 'PGM', 'RTE', 'ATE', 'PJM', 'PMO' ],
+          labels: ['Scrum Masters', 'Agile Coaches', 'Product Owners', 'Project Managers', 'Release Train Engineers'],
+          datasets: [{
+              label: '# of Employees',
+              data:  [{{data.sm}}, {{data.ac}}, {{data.po}}, {{data.pjm}}, {{data.rte}}],
+              //data: [{{data.sm}}, {{data.ac}}, {{data.po}}, {{data.pgm}}, {{data.rte}}, {{data.ate}}, {{data.pjm}}, {{data.pmo}}],
+              backgroundColor: [
+                  '#abd7f8',
+                  '#c6ebdb',
+                  '#8fd8b7',
+                  '#c99af4',                
+                  '#fde460',
+                  '#bdc8e1',
+              ],
+              borderColor: [
+                  '#abd7f8',
+                  '#c6ebdb',
+                  '#8fd8b7',
+                  '#c99af4',
+                  '#fde460',
+                  '#bdc8e1',
+              ],
+              borderWidth: 1
+          }]
+      },
+      options: {
+            responsive: false,
+      }
+    
+  });
+    </script>
+</body>
+</html>
